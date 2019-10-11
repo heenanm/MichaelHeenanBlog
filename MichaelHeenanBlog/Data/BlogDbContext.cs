@@ -8,9 +8,9 @@ namespace MichaelHeenanBlog.Data
 {
     public class BlogDbContext : DbContext
     {
-        public DbSet<BlogPost> BlogPosts { get; set; }
-        public DbSet<Tag> Tags { get; set; }
-        public DbSet<Comment> Comments { get; set; }
+        public DbSet<BlogPostEntity> BlogPosts { get; set; }
+        public DbSet<TagEntity> Tags { get; set; }
+        public DbSet<CommentEntity> Comments { get; set; }
 
         public BlogDbContext(DbContextOptions<BlogDbContext> options)
             : base(options)

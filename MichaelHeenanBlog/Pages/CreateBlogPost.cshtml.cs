@@ -18,8 +18,8 @@ namespace MichaelHeenanBlog.Pages
         }
 
         [BindProperty]
-        public BlogPost BlogPost { get; set; }
-
+        public BlogPostModelInput BlogPost { get; set; }
+        
         public IActionResult OnGet()
         {
             return Page();
@@ -32,15 +32,41 @@ namespace MichaelHeenanBlog.Pages
                 return Page();
             }
 
-            _blogDbContext.BlogPosts.Add(BlogPost);
-            //_blogDbContext.BlogPosts.Add(new BlogPost 
-            //{
-            //    Title = BlogPost.Title,
-            //    Body = BlogPost.Body
-            //});
+            var blogPost = new BlogPostEntity
+            {
+                CreatedAt = DateTime.UtcNow,
+                Title = BlogPost.Title,
+                Body = BlogPost.Body
+            };
+
+            var tagList = BlogPost.Tags.Split(" ").Where(x => !string.IsNullOrEmpty(x));
+            var tagEntities = new List<TagEntity>();
+            
+            foreach (var tag in tagList)
+            {
+                var tagEntity = new TagEntity
+                {
+                    BlogPostId = blogPost.Id,
+                    DisplayName = tag,
+                    UrlFragment = System.Web.HttpUtility.UrlEncode(tag)
+            };
+                tagEntities.Add(tagEntity);
+            }
+            
+            blogPost.Tags = tagEntities;
+            
+            _blogDbContext.BlogPosts.Add(blogPost);
+           
             await _blogDbContext.SaveChangesAsync();
 
             return RedirectToPage("./Index");
+        }
+
+        public class BlogPostModelInput 
+        {
+            public string Title { get; set; }
+            public string Body { get; set; }
+            public string Tags { get; set; }
         }
        
     }

@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace MichaelHeenanBlog.Migrations
 {
     [DbContext(typeof(BlogDbContext))]
-    [Migration("20191009085509_InitialCreate")]
+    [Migration("20191011132632_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -21,7 +21,7 @@ namespace MichaelHeenanBlog.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-            modelBuilder.Entity("MichaelHeenanBlog.Data.BlogPost", b =>
+            modelBuilder.Entity("MichaelHeenanBlog.Data.BlogPostEntity", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -41,7 +41,7 @@ namespace MichaelHeenanBlog.Migrations
                     b.ToTable("BlogPosts");
                 });
 
-            modelBuilder.Entity("MichaelHeenanBlog.Data.Comment", b =>
+            modelBuilder.Entity("MichaelHeenanBlog.Data.CommentEntity", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -66,7 +66,7 @@ namespace MichaelHeenanBlog.Migrations
                     b.ToTable("Comments");
                 });
 
-            modelBuilder.Entity("MichaelHeenanBlog.Data.Tag", b =>
+            modelBuilder.Entity("MichaelHeenanBlog.Data.TagEntity", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -88,18 +88,18 @@ namespace MichaelHeenanBlog.Migrations
                     b.ToTable("Tags");
                 });
 
-            modelBuilder.Entity("MichaelHeenanBlog.Data.Comment", b =>
+            modelBuilder.Entity("MichaelHeenanBlog.Data.CommentEntity", b =>
                 {
-                    b.HasOne("MichaelHeenanBlog.Data.BlogPost", null)
+                    b.HasOne("MichaelHeenanBlog.Data.BlogPostEntity", "BlogPost")
                         .WithMany("Comments")
                         .HasForeignKey("BlogPostId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("MichaelHeenanBlog.Data.Tag", b =>
+            modelBuilder.Entity("MichaelHeenanBlog.Data.TagEntity", b =>
                 {
-                    b.HasOne("MichaelHeenanBlog.Data.BlogPost", null)
+                    b.HasOne("MichaelHeenanBlog.Data.BlogPostEntity", "BlogPost")
                         .WithMany("Tags")
                         .HasForeignKey("BlogPostId")
                         .OnDelete(DeleteBehavior.Cascade)

@@ -5,11 +5,13 @@ using System.Threading.Tasks;
 
 namespace MichaelHeenanBlog.Data
 {
-    public class Tag
+    public class CommentEntity
     {
         public Guid Id { get; set; }
+        public BlogPostEntity BlogPost { get; set; }
         public Guid BlogPostId { get; set; }
-        public string UrlFragment { get; set; }
-        public string DisplayName { get; set; }
+        public string Body { get; set; }
+        public DateTime CreatedAt { get; set; }
+        public string AuthorName { get; set; }
     }
 }

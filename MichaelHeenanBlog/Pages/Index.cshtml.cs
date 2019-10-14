@@ -16,7 +16,7 @@ namespace MichaelHeenanBlog.Pages
         private readonly BlogDbContext _dbContext;
 
         [BindProperty]
-        public List<BlogPostModel> BlogPostModels { get; private set; }
+        public List<BlogPostModelOutput> BlogPostModels { get; private set; }
 
         public IndexModel(ILogger<IndexModel> logger, BlogDbContext dbContext)
         {
@@ -33,21 +33,20 @@ namespace MichaelHeenanBlog.Pages
 
         private void GetAllPosts()
         {
-            var blogPostsFiltered = new List<BlogPostModel>();
+            var blogPostsFiltered = new List<BlogPostModelOutput>();
 
             foreach (var blogPost in _dbContext.BlogPosts)
             {
-                var blogPostModel = new BlogPostModel();
+                var blogPostModel = new BlogPostModelOutput();
                 blogPostModel.Title = blogPost.Title;
                 blogPostModel.Body = blogPost.Body;
-                blogPostModel.Tags = blogPost.Tags;
                 blogPostsFiltered.Add(blogPostModel);
             }
 
             BlogPostModels = blogPostsFiltered;
         }
 
-        public class BlogPostModel
+        public class BlogPostModelOutput
         {
             public string Title { get; set; }
             public string Body { get; set; }

@@ -11,12 +11,12 @@ namespace MichaelHeenanBlog.Data
     {
             public void Configure(EntityTypeBuilder<BlogPostEntity> builder)
             {
-                builder.ToTable("BlogPosts");
-                builder.HasKey(x => x.Id);
+                //builder.ToTable("BlogPosts");
+                //builder.HasKey(x => x.Id);
                 //builder.Property(x => x.RowVersion)
                 //    .IsRowVersion();
 
-                //builder.HasOne(x => x.Product).WithMany(x => x.Conversations);
+                //builder.HasOne(x => x.Tags).WithMany(x => x.);
 
                 //builder.HasMany(x => x.Messages).WithOne(x => x.Conversation).OnDelete(DeleteBehavior.Restrict);
                 //builder.HasMany(x => x.Users).WithOne(x => x.Conversation).OnDelete(DeleteBehavior.Restrict);

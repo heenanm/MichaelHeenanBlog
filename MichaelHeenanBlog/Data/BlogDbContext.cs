@@ -16,5 +16,21 @@ namespace MichaelHeenanBlog.Data
             : base(options)
         {
         }
+
+        //protected override void OnModelCreating(ModelBuilder modelBuilder)
+        //{
+        //    base.OnModelCreating(modelBuilder);
+
+        //    var entityTypeConfigurations = Assembly.GetExecutingAssembly()
+        //                                           .GetTypes()
+        //                                           .Where(t => !t.IsAbstract && !t.IsGenericTypeDefinition &&
+        //                                                       t.GetTypeInfo().ImplementedInterfaces.Any(i => i.GetTypeInfo().IsGenericType && i.GetGenericTypeDefinition() == typeof(IEntityTypeConfiguration<>)));
+
+        //    foreach (var entityTypeConfiguration in entityTypeConfigurations)
+        //    {
+        //        dynamic config = Activator.CreateInstance(entityTypeConfiguration);
+        //        modelBuilder.ApplyConfiguration(config);
+        //    }
+        //}
     }
 }

@@ -40,6 +40,9 @@ namespace MichaelHeenanBlog
                 app.UseHsts();
             }
 
+            // Stackify Middleware
+            app.UseMiddleware<StackifyMiddleware.RequestTracerMiddleware>();
+
             app.UseHttpsRedirection();
             app.UseStaticFiles();
 

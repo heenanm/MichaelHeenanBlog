@@ -34,16 +34,21 @@ namespace MichaelHeenanBlog.Pages
 
         private void GetAllPostSummarys()
         {
-            foreach (var blogPost in _dbContext.BlogPosts.Include(t => t.Tags))
-            {
-                var blogPostSummary = new BlogPostSummary(blogPost.Title, blogPost.Body, blogPost.Tags);
-                BlogPostSummarys.Add(blogPostSummary);
-            }
-            
-           
-            //var BlogPostSummarys = from b in _dbContext.BlogPosts
-            //                        let BlogPostSummary = new { b.Title, b.Body, b.Tags }
-            //                        select BlogPostSummary;
+            //var posts = _dbContext.BlogPosts.Select(blogPost => new BlogPostSummary(blogPost.Title, blogPost.Body, blogPost.Tags));
+            //var enumerator = posts.GetEnumerator();
+
+            //while (enumerator.MoveNext()){
+            //    var post = enumerator.Current;
+            //}
+
+            //foreach (var post in posts)
+            //{
+            //    BlogPostSummarys.Add(post);
+            //}
+
+            BlogPostSummarys = _dbContext
+                .BlogPosts
+                .Select(blogPost => new BlogPostSummary(blogPost.Title, blogPost.Body, blogPost.Tags)).ToList();
         }
     }
 }

@@ -48,6 +48,7 @@ namespace MichaelHeenanBlog.Pages
 
             BlogPostSummarys = _dbContext
                 .BlogPosts
+                .OrderByDescending(b => b.CreatedAt)
                 .Select(blogPost => new BlogPostSummary(blogPost.Title, blogPost.Body, blogPost.Tags)).ToList();
         }
     }

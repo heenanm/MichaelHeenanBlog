@@ -3,31 +3,37 @@
 @{
 }
 
-    <div class="card">
-        <div class="card-header">
-            <h3>@Model.Title</h3>
+    <div class="card mb-4 border-primary">
+        <div class="card-header text-center">
+            <a  asp-page="./ViewSingleBlogPost"
+                asp-route-blogPostId="@Model.Tags.ElementAt(0).BlogPostId">
+                <h3>@Model.Title</h3>
+            </a>
         </div>
         <div class="card-body">
             <p>@Model.Body</p>
         </div>
 
-        @if (Model.Tags == null)
-        {
-            <div class="card-footer">
-                <p>Blog Post has no tags</p>
-            </div>
-        }
-        else
-        {
-            @foreach (var tag in Model.Tags)
+        <div class="card-footer text-center">
+
+            @if (Model.Tags == null)
             {
-                <div class="card-footer">
-                    <a class="btn btn-outline-primary"
-                       asp-page=""
-                       asp-route-Id="">
-                        Tags
-                    </a>
+                <div class="card-footer text-center">
+                    <p>Blog Post has no tags</p>
                 </div>
             }
-        }
+            else
+            {
+                @foreach (var tag in Model.Tags)
+                {
+                    <a class="btn btn-outline-primary"
+                       asp-page="./ViewSingleBlogPost"
+                       asp-route-blogPostId="@tag.BlogPostId">
+                        @tag.DisplayName
+                    </a>
+                }
+            }
+       
+        </div>
+
     </div>

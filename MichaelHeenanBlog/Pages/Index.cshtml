@@ -4,31 +4,36 @@
     ViewData["Title"] = "Home page";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
+    <div class="bg-light">
+        <h1 class="display-4 text-center">Blog!</h1>
 
-    @foreach (var blogPost in Model.BlogPostSummarys)
-    {
-    <div class="card text-center">
-    
-        <h2>@blogPost.Title</h2>
-        <h3>@blogPost.Body</h3>
-    
-        <div class="card">
-            @if (blogPost.Tags == null)
-            {
-                <p>No Tags added to post</p>
-            }
-            else
-            {
-                @foreach (var tag in blogPost.Tags)
+        @*@foreach (var blogPost in Model.BlogPostSummarys)
+        {
+        <div class="card text-center">
+
+            <h2>@blogPost.Title</h2>
+            <h3>@blogPost.Body</h3>
+
+            <div class="card">
+                @if (blogPost.Tags == null)
                 {
-                    <p>@tag.DisplayName</p>
+                    <p>No Tags added to post</p>
                 }
-            }
-        </div>
-    
-    </div>   
-    }
+                else
+                {
+                    @foreach (var tag in blogPost.Tags)
+                    {
+                        <p>@tag.DisplayName</p>
+                    }
+                }
+            </div>
 
-</div>
+        </div>
+        }*@
+
+        @foreach (var blogpost in Model.BlogPostSummarys)
+        {
+            <partial name="_BlogPostSummary" model="blogpost" />
+        }
+
+    </div>

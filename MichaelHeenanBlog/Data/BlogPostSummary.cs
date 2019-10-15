@@ -7,8 +7,15 @@ namespace MichaelHeenanBlog.Data
 {
     public class BlogPostSummary
     {
-        public string Title { get; set; }
-        public string Body { get; set; }
-        public List<TagEntity> Tags { get; set; }
+        public readonly string Title;
+        public readonly string Body;
+        public readonly IReadOnlyCollection<TagEntity> Tags;
+
+        public BlogPostSummary(string title, string body, List<TagEntity> tags)
+        {
+            Title = title;
+            Body = body;
+            Tags = tags;
+        } 
     }
 }

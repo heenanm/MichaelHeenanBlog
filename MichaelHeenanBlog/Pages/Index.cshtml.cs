@@ -16,12 +16,13 @@ namespace MichaelHeenanBlog.Pages
         private readonly BlogDbContext _dbContext;
 
         [BindProperty]
-        public List<BlogPostSummary> BlogPostSummary { get; private set; }
+        public List<BlogPostSummary> BlogPostSummarys { get; private set; }
 
         public IndexModel(ILogger<IndexModel> logger, BlogDbContext dbContext)
         {
             _logger = logger;
             _dbContext = dbContext;
+            BlogPostSummarys = new List<BlogPostSummary>();
         }
 
         public IActionResult OnGet()
@@ -33,18 +34,16 @@ namespace MichaelHeenanBlog.Pages
 
         private void GetAllPostSummarys()
         {
-            var blogPostsFiltered = new List<BlogPostSummary>();
-
             foreach (var blogPost in _dbContext.BlogPosts.Include(t => t.Tags))
             {
-                var blogPostModel = new BlogPostSummary();
-                blogPostModel.Title = blogPost.Title;
-                blogPostModel.Body = blogPost.Body;
-                blogPostModel.Tags = blogPost.Tags;              
-                blogPostsFiltered.Add(blogPostModel);
+                var blogPostSummary = new BlogPostSummary(blogPost.Title, blogPost.Body, blogPost.Tags);
+                BlogPostSummarys.Add(blogPostSummary);
             }
-
-            BlogPostSummary = blogPostsFiltered;
+            
+           
+            //var BlogPostSummarys = from b in _dbContext.BlogPosts
+            //                        let BlogPostSummary = new { b.Title, b.Body, b.Tags }
+            //                        select BlogPostSummary;
         }
     }
 }

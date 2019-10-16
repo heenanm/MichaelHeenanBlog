@@ -1,0 +1,17 @@
+﻿@page
+@model MichaelHeenanBlog.Areas.Admin.Pages.IndexModel
+@{
+    ViewData["Title"] = "Admin Home page";
+}
+
+    <h1>Administrator</h1>
+
+<div class="bg-light">
+    <h1 class="display-4 text-center">Blog!</h1>
+
+    @foreach (var blogpost in Model.BlogPostSummarys)
+    {
+        <partial name="_BlogPostSummary" model="blogpost" />
+    }
+
+</div>

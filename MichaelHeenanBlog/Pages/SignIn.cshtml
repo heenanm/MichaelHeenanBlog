@@ -1,8 +1,26 @@
 ﻿@page
 @model MichaelHeenanBlog.Pages.SignInModel
 @{
-    ViewData["Title"] = "SignIn";
+    ViewData["Title"] = "Admin Sign In";
 }
 
-<h1>SignIn</h1>
+<h1>Administrator Sign In</h1>
 
+<div>
+    <form method="post">
+        <div class="form-group">
+            <label>
+                Username
+                <input asp-for="AdminLogin.Username" type="text" class="form-control" aria-describedby="titleHelp" placeholder="Title">
+            </label>
+            <small id="titleHelp" class="form-text text-muted">Enter your Username</small>
+        </div>
+        <div class="form-group">
+            <label>
+                Password
+                <input asp-for="AdminLogin.Password" type="text" class="form-control" aria-describedby="bodyHelp" placeholder="Body">
+            </label>
+            <small id="bodyHelp" class="form-text text-muted">Enter your Password</small>
+        </div>
+    </form>
+</div>

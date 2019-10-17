@@ -7,15 +7,8 @@ namespace MichaelHeenanBlog.Data
 {
     public class AdminEntity
     {
-        private readonly Guid _Id;
-        private readonly string _Username;
-        private readonly string _HashedPassword;
-
-        public AdminEntity(string username, string password)
-        {
-            _Id = new Guid();
-            _Username = username;
-            _HashedPassword = BCrypt.Net.BCrypt.HashPassword(password);
-        }
+        public Guid Id { get; set; }
+        public string Username { get; set; }
+        public string HashedPassword { get; set; }
     }
 }

@@ -1,4 +1,5 @@
 using MichaelHeenanBlog.Data;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
@@ -23,7 +24,19 @@ namespace MichaelHeenanBlog
             services.AddDbContext<BlogDbContext>(options =>
                options.UseSqlServer(Configuration.GetConnectionString("MichaelHeenanBlog")));
 
-            services.AddRazorPages();
+            // Add Cookie Authentication
+            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+                .AddCookie(o => 
+                {
+                    o.LoginPath = "/SignIn";
+                });
+
+            // Add options to make Admin folder require authentication to access
+            services.AddRazorPages()
+                 .AddRazorPagesOptions(options =>
+                 {
+                     options.Conventions.AuthorizeAreaFolder("Admin", "/");
+                 });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -48,6 +61,9 @@ namespace MichaelHeenanBlog
 
             app.UseRouting();
 
+            // Authentication Middleware
+            app.UseAuthentication();
+           
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>

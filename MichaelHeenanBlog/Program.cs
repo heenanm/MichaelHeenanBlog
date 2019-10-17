@@ -8,6 +8,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Serilog;
+using Serilog.Events;
 
 namespace MichaelHeenanBlog
 {
@@ -40,6 +42,17 @@ namespace MichaelHeenanBlog
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
                     webBuilder.UseStartup<Startup>();
+                                //.UseSerilog((hostingContext, loggerConfiguration) =>
+                                //{
+                                //    loggerConfiguration
+                                //        .Enrich.FromLogContext()
+                                //        .MinimumLevel.Is(hostingContext.Configuration.GetValue<LogEventLevel>("Serilog:LogEventLevel"));
+
+                                //    var seqUrl = "localhost:4321";
+
+                                //    loggerConfiguration.WriteTo.Seq
+                                //    (seqUrl);
+                                //});
                 });
     }
 }

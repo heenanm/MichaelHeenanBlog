@@ -11,6 +11,7 @@ namespace MichaelHeenanBlog.Data
         public DbSet<BlogPostEntity> BlogPosts { get; set; }
         public DbSet<TagEntity> Tags { get; set; }
         public DbSet<CommentEntity> Comments { get; set; }
+        public DbSet<AdminEntity> Administrators { get; set; }
 
         public BlogDbContext(DbContextOptions<BlogDbContext> options)
             : base(options)

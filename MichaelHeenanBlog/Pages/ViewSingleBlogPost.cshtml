@@ -1,8 +1,61 @@
 ﻿@page "{blogPostId:Guid}"
 @model MichaelHeenanBlog.Pages.ViewSingleBlogPostModel
 @{
-    ViewData["Title"] = "ViewSingleBlogPost";
+    ViewData["Title"] = "View Single BlogPost";
 }
 
-<h1>ViewSingleBlogPost</h1>
+<h1>View Single BlogPost</h1>
 
+@*<div class="card mb-4 border-primary">
+    <div class="card-header text-center">
+        <a asp-page="./ViewSingleBlogPost"
+           asp-route-blogPostId="@Model.BlogPost.Id">
+            <h3>@Model.BlogPost.Title</h3>
+        </a>
+    </div>
+    <div class="card-body">
+        <p>@Model.BlogPost.Body</p>
+    </div>
+
+    <div class="card-footer text-center">
+
+        @if (Model.BlogPost.Tags == null)
+        {
+            <div class="card-footer text-center">
+                <p>Blog Post has no tags</p>
+            </div>
+        }
+        else
+        {
+            @foreach (var tag in Model.BlogPost.Tags)
+            {
+                <a class="btn btn-outline-primary"
+                   asp-page="./ViewSingleBlogPost"
+                   asp-route-blogPostId="@tag.BlogPostId">
+                    @tag.DisplayName
+                </a>
+            }
+        }
+
+    </div>
+
+</div>
+
+<div class="card mb-4 border-primary">
+    
+    <div class="card-body">
+        @Model.BlogPost.Comments
+        @if (Model.BlogPost.Comments.ToList() == null)
+        {
+            <p>Blog Post has no Comments</p>
+        }
+        else
+        {
+            @foreach (var comment in Model.BlogPost.Comments)
+            {
+                <p>woo comments </p>
+            }
+        }
+    </div>
+
+</div>*@

@@ -17,7 +17,7 @@ namespace MichaelHeenanBlog.Pages
             _blogDbContext = blogDbContext;
         }
 
-        public IEnumerable<BlogPostEntity> BlogPost { get; set; }
+        public BlogPostEntity BlogPost { get; set; }
 
         public IActionResult OnGet(Guid blogPostId)
         {
@@ -29,9 +29,17 @@ namespace MichaelHeenanBlog.Pages
         public void GetBlogPost(Guid blogPostId)
         {
             BlogPost = _blogDbContext
-                .BlogPosts
-                .Where(b => b.Id == blogPostId)
-                .ToList();
+               .BlogPosts
+               .Select(b => new BlogPostEntity {
+                Id = b.Id, 
+                Title = b.Title,
+                Body = b.Body, 
+                CreatedAt = b.CreatedAt,
+                Tags = b.Tags,
+                Comments = b.Comments
+                })
+               .SingleOrDefault(b => b.Id == blogPostId);
+        
         }
     }
 }

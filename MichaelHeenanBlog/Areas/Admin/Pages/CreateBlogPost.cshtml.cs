@@ -59,7 +59,7 @@ namespace MichaelHeenanBlog.Areas.Admin.Pages
            
             await _blogDbContext.SaveChangesAsync();
 
-            return RedirectToPage("./Index");
+            return RedirectToPage("/Index", new { area = "admin" });
         }
 
         public class BlogPostModelInput 

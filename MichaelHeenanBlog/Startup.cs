@@ -1,5 +1,6 @@
 using MichaelHeenanBlog.Data;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authorization.Infrastructure;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
@@ -30,6 +31,15 @@ namespace MichaelHeenanBlog
                 {
                     o.LoginPath = "/SignIn";
                 });
+
+            // Add Authorisation options
+            //services.AddAuthorization(options =>
+            //{
+            //    options.AddPolicy("Administrator", policy =>
+            //    {
+            //        policy.Requirements.Add(new RolesAuthorizationRequirement(new[] { "Administrator" }));
+            //    });
+            //});
 
             // Add options to make Admin folder require authentication to access
             services.AddRazorPages()

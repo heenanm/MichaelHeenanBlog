@@ -16,7 +16,7 @@
 
         <div class="card-footer text-center">
 
-            @if (Model.Tags == null)
+            @if (Model.Tags?.Any() != true)
             {
                 <div class="card-footer text-center">
                     <p>Blog Post has no tags</p>

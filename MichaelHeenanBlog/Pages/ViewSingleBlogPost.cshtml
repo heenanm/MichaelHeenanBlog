@@ -16,7 +16,7 @@
 
     <div class="card-footer text-center">
 
-        @if (Model.BlogPost.Tags == null)
+        @if (Model.BlogPost.Tags?.Any() != true)
         {
             <div class="card-footer text-center">
                 <p>Blog Post has no tags</p>
@@ -41,8 +41,7 @@
 <div class="card mb-4 border-primary">
     
     <div class="card-body">
-        @Model.BlogPost.Comments
-        @if (Model.BlogPost.Comments.ToList() == null)
+        @if (Model.BlogPost.Comments?.Any() != true)
         {
             <p>Blog Post has no Comments</p>
         }

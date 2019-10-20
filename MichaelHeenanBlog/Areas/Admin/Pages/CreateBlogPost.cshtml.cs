@@ -39,8 +39,14 @@ namespace MichaelHeenanBlog.Areas.Admin.Pages
                 Body = BlogPost.Body
             };
 
-            var tagList = BlogPost.Tags.Split(" ").Where(x => !string.IsNullOrEmpty(x));
+            var tagList = new string [] {};
+            if (!string.IsNullOrEmpty(BlogPost.Tags))
+            {
+               tagList = BlogPost.Tags.Split(" ");
+            }
+
             var tagEntities = new List<TagEntity>();
+            BlogPost.Comments = new List<CommentEntity>();
             
             foreach (var tag in tagList)
             {
@@ -67,6 +73,7 @@ namespace MichaelHeenanBlog.Areas.Admin.Pages
             public string Title { get; set; }
             public string Body { get; set; }
             public string Tags { get; set; }
+            public List<CommentEntity> Comments { get; set; }
         }
        
     }

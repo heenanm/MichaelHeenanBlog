@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using MichaelHeenanBlog.Data;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Slugify;
 
 namespace MichaelHeenanBlog.Areas.Admin.Pages
 {
@@ -43,18 +44,23 @@ namespace MichaelHeenanBlog.Areas.Admin.Pages
             var tagList = new string [] {};
             if (!string.IsNullOrEmpty(BlogPost.Tags))
             {
-               tagList = BlogPost.Tags.Split(" ");
+               tagList = BlogPost.Tags.Split(",");
             }
 
             var tagEntities = new List<TagEntity>();
-            
+
+            // Initialise slugify helper
+            var helper = new SlugHelper();
+
             foreach (var tag in tagList)
             {
+                var urlSlug = helper.GenerateSlug(tag);
+
                 var tagEntity = new TagEntity
                 {
                     BlogPostId = blogPost.Id,
                     DisplayName = tag,
-                    UrlFragment = System.Web.HttpUtility.UrlEncode(tag)
+                    UrlFragment = urlSlug // Changed to use slugify System.Web.HttpUtility.UrlEncode(tag)
             };
                 tagEntities.Add(tagEntity);
             }

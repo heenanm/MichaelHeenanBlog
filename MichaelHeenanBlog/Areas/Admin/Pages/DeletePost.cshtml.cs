@@ -12,5 +12,10 @@ namespace MichaelHeenanBlog.Areas.Admin.Pages
         public void OnGet()
         {
         }
+
+        public void OnPost()
+        {
+
+        }
     }
 }

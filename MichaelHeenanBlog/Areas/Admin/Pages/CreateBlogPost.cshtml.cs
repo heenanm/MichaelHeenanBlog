@@ -36,7 +36,8 @@ namespace MichaelHeenanBlog.Areas.Admin.Pages
             {
                 CreatedAt = DateTime.UtcNow,
                 Title = BlogPost.Title,
-                Body = BlogPost.Body
+                Body = BlogPost.Body,
+                Comments = new List<CommentEntity>()
             };
 
             var tagList = new string [] {};
@@ -46,7 +47,6 @@ namespace MichaelHeenanBlog.Areas.Admin.Pages
             }
 
             var tagEntities = new List<TagEntity>();
-            BlogPost.Comments = new List<CommentEntity>();
             
             foreach (var tag in tagList)
             {
@@ -73,7 +73,6 @@ namespace MichaelHeenanBlog.Areas.Admin.Pages
             public string Title { get; set; }
             public string Body { get; set; }
             public string Tags { get; set; }
-            public List<CommentEntity> Comments { get; set; }
         }
        
     }

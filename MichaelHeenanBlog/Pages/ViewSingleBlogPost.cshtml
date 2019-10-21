@@ -27,7 +27,7 @@
         {
             @foreach (var tag in Model.BlogPost.Tags)
             {
-                <a class="btn btn-outline-primary"
+                <a class="badge badge-pill badge-secondary text-center"
                    asp-page="./ViewSingleBlogPost"
                    asp-route-blogPostId="@tag.BlogPostId">
                     @tag.DisplayName

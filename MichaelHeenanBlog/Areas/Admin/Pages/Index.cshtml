@@ -4,12 +4,30 @@
     ViewData["Title"] = "Admin Home page";
 }
 
-<div class="bg-light">
-    <h1 class="display-4 text-center">Blog!</h1>
+    <div class="bg-light">
+        <h1 class="display-4 text-center">Blog!</h1>
+        @*
+        @foreach (var blogpost in Model.BlogPostSummarys)
+        {
+            <partial name="_BlogPostSummary" model="blogpost" />
+        }
+        *@
+        <table class="table">
+            @foreach (var blogpost in Model.BlogPostSummarys)
+            {
+                <tr>
+                    <td>@blogpost.Title</td>
+                    <td>@blogpost.Body</td>
+                    <td>
+                        <a class="btn btn-outline-primary">
+                            Edit Post
+                        </a>
+                        <a class="btn btn-outline-primary">
+                            Delete Post
+                        </a>
+                    </td>
+                </tr>
+            }
+        </table>
 
-    @foreach (var blogpost in Model.BlogPostSummarys)
-    {
-        <partial name="_BlogPostSummary" model="blogpost" />
-    }
-
-</div>
+    </div>

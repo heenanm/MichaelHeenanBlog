@@ -13,18 +13,27 @@
         }
         *@
         <table class="table">
-            @foreach (var blogpost in Model.BlogPostSummarys)
+            @foreach (var blogPost in Model.BlogPostSummarys)
             {
-                <tr>
-                    <td>@blogpost.Title</td>
-                    <td>@blogpost.Body</td>
-                    <td>
-                        <a class="btn btn-outline-primary" asp-area="Admin" asp-page="/EditPost">
+                <tr class="text-center">
+                    <td class="text-nowrap border-primary">@blogPost.Title</td>
+                    <td class="border-primary">@blogPost.Body</td>
+                    <td class="border-primary">
+                        <div class="dropdown">
+                            <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Edit/Delete Post
+                            </button>
+                            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                <a class="dropdown-item" asp-area="Admin" asp-page="/EditPost"  asp-route-blogPostId="@blogPost.BlogPostId">Edit Post</a>
+                                <a class="dropdown-item" asp-area="Admin" asp-page="/DeletePost" asp-route-blogPostId="@blogPost.BlogPostId">Delete Post</a>
+                            </div>
+                        </div>
+                        @*<a class="btn btn-outline-primary" asp-area="Admin" asp-page="/EditPost">
                             Edit Post
                         </a>
                         <a class="btn btn-outline-primary" asp-area="Admin" asp-page="/DeletePost">
                             Delete Post
-                        </a>
+                        </a>*@
                     </td>
                 </tr>
             }

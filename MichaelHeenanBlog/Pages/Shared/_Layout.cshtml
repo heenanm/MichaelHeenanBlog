@@ -11,7 +11,19 @@
     <header>
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
             <div class="container">
-                <a class="navbar-brand" asp-area="" asp-page="/Index">Michael Heenan Blog</a>
+                
+                @if (!User.Identity.IsAuthenticated)
+                {
+                    <a class="navbar-brand" asp-area="" asp-page="/Index">Michael Heenan Blog</a>
+
+                }
+                
+                @if (User.Identity.IsAuthenticated)
+                {
+                    <a class="navbar-brand" asp-area="" asp-page="/Index">Administrator</a>
+
+                }
+
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
@@ -21,12 +33,14 @@
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-page="/Index">Home</a>
                         </li>
+                        
                         @if (!User.Identity.IsAuthenticated)
                         {
                             <li class="nav-item">
                                 <a class="nav-link text-dark" asp-area="" asp-page="/SignIn">Sign In</a>
                             </li>
                         }
+                        
                         @if (User.Identity.IsAuthenticated)
                         {
                             <li class="nav-item">

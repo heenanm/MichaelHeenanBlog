@@ -12,10 +12,10 @@ namespace MichaelHeenanBlog.Areas.Admin.Pages
     {
         private readonly BlogDbContext _blogDbContext;
         
-        [BindProperty]
-        public Guid BlogpostId { get; set; }
-
         public BlogPostEntity BlogPost { get; set; }
+
+        [BindProperty]
+        public Guid BlogPostId { get; set; }
 
         public DeletePostModel(BlogDbContext blogDbContext)
         {
@@ -31,7 +31,7 @@ namespace MichaelHeenanBlog.Areas.Admin.Pages
 
         public IActionResult OnPost()
         {
-            DeleteBlogPost(BlogpostId);
+            DeleteBlogPost(BlogPostId);
 
             return RedirectToPage("/Index", new { area = "admin" });
         }
@@ -59,6 +59,8 @@ namespace MichaelHeenanBlog.Areas.Admin.Pages
             .SingleOrDefault(b => b.Id == Id);
 
             _blogDbContext.Remove(postToDelete);
+            _blogDbContext.SaveChanges();
+
         }
     }
 }

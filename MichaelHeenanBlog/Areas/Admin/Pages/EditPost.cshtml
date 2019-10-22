@@ -7,31 +7,31 @@
 
 <form method="post">
     <p>Save Changes?</p>
-    <input type="hidden" asp-for="BlogPostId" value="@Model.BlogPost.Id" />
+    <input type="hidden" asp-for="BlogPostId" value="@Model.BlogPostId" />
     <button type="submit" class="btn btn-primary">Yes</button>
     <a asp-area="Admin" asp-page="/Index" class="btn btn-primary">No</a>
 
     <div class="form-group">
         <label>
             Title
-            <input asp-for="PostContent.Title" type="text" class="form-control" aria-describedby="titleHelp" value="@Model.BlogPost.Title" />
+            <input asp-for="NewPostContent.Title" type="text" class="form-control" aria-describedby="titleHelp" value="@Model.PostContent.Title" />
         </label>
         <small id="titleHelp" class="form-text text-muted">The title of the blog post</small>
     </div>
     <div class="form-group">
         <label>
             Body
-            @Html.TextArea("PostContent.Body", Model.BlogPost.Body, new { @class = "form-control", @cols = 100, @rows = 20 })
+            @Html.TextArea("NewPostContent.Body", Model.PostContent.Body, new { @class = "form-control", @cols = 150, @rows = 5 })
         </label>
         <small id="bodyHelp" class="form-text text-muted">The body of the blog post</small>
     </div>
-    @*<div class="form-group">
+    <div class="form-group">
         <label>
             Tags
-            <input asp-for="PostContent.Tags" type="text" class="form-control" aria-describedby="tagHelp">
+            <input asp-for="NewPostContent.Tags" type="text" class="form-control" aria-describedby="tagHelp" value="@Model.PostContent.Tags">
         </label>
         <small id="tagHelp" class="form-text text-muted">The tags of the blogpost (comma separated list)</small>
-    </div>*@
+    </div>
 </form>
 
 

@@ -39,20 +39,21 @@ namespace MichaelHeenanBlog
 
         public static IHostBuilder CreateHostBuilder(string[] args) =>
             Host.CreateDefaultBuilder(args)
+                .UseSerilog((hostingContext, loggerConfiguration) =>
+                {
+                    loggerConfiguration
+                        .Enrich.FromLogContext()
+                        .MinimumLevel.Is(hostingContext.Configuration.GetValue<LogEventLevel>("Serilog:LogEventLevel"));
+
+                    var seqUrl = "https://localhost:5341";
+
+                    loggerConfiguration.WriteTo.Seq
+                    (seqUrl);
+                })
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
                     webBuilder.UseStartup<Startup>();
-                                //.UseSerilog((hostingContext, loggerConfiguration) =>
-                                //{
-                                //    loggerConfiguration
-                                //        .Enrich.FromLogContext()
-                                //        .MinimumLevel.Is(hostingContext.Configuration.GetValue<LogEventLevel>("Serilog:LogEventLevel"));
-
-                                //    var seqUrl = "localhost:4321";
-
-                                //    loggerConfiguration.WriteTo.Seq
-                                //    (seqUrl);
-                                //});
+                              
                 });
     }
 }

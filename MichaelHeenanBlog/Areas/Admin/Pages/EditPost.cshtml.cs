@@ -34,7 +34,7 @@ namespace MichaelHeenanBlog.Areas.Admin.Pages
 
         public IActionResult OnPost()
         {
-            //EditBlogPost(BlogPostId);
+            EditBlogPost(BlogPostId);
 
             return RedirectToPage("/Index", new { area = "admin" });
         }

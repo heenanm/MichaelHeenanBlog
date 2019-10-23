@@ -48,9 +48,28 @@
         {
             @foreach (var comment in Model.Comments)
             {
-                <p>woo comments </p>
+                <p>@comment.Body</p>
             }
         }
     </div>
 
 </div>
+
+<form method="post">
+    <div class="form-group">
+        <input type="hidden" asp-for="BlogPostId" value="@Model.BlogPost.BlogPostId" />
+        <label>
+            Name
+            <input asp-for="Comment.Author" type="text" class="form-control" aria-describedby="nameHelp" placeholder="Name">
+        </label>
+        <small id="nameHelp" class="form-text text-muted">Name</small>
+    </div>
+    <div class="form-group">
+        <label>
+            Comment
+            <textarea asp-for="Comment.Comment" type="text" class="form-control " cols="150" rows="5" aria-describedby="bodyHelp" placeholder="Comment"></textarea>
+        </label>
+        <small id="bodyHelp" class="form-text text-muted">Add Comment</small>
+    </div>
+    <button type="submit" class="btn btn-primary">Comment</button>
+</form>

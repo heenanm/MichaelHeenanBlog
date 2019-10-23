@@ -4,11 +4,46 @@
     ViewData["Title"] = "Home page";
 }
 
-    <div class="bg-light">
-        <h1 class="display-4 text-center">Blog!</h1>
+<div class="bg-light">
+    <h1 class="display-4 text-center">Blog!</h1>
 
-        @foreach (var blogpost in Model.BlogPostSummarys)
-        {
-            <partial name="_BlogPostSummary" model="blogpost" />
-        }
-    </div>
+    @foreach (var blogpost in Model.PagedPosts)
+    {
+        <partial name="_BlogPostSummary" model="blogpost" />
+    }
+</div>
+
+@if (Model.Pager.Pages.Any())
+{
+    <nav class="table-responsive">
+        <ul class="pagination justify-content-center d-flex flex-wrap">
+            @if (Model.Pager.CurrentPage > 1)
+            {
+                <li class="page-item">
+                    <a class="page-link" href="/">First</a>
+                </li>
+                <li class="page-item">
+                    <a class="page-link" href="/?p=@(Model.Pager.CurrentPage - 1)">Previous</a>
+                </li>
+            }
+
+            @foreach (var p in Model.Pager.Pages)
+            {
+                <li class="page-item @(p == Model.Pager.CurrentPage ? "active" : "")">
+                    <a class="page-link" href="/?p=@p">@p</a>
+                </li>
+            }
+
+            @if (Model.Pager.CurrentPage < Model.Pager.TotalPages)
+            {
+                <li class="page-item">
+                    <a class="page-link" href="/?p=@(Model.Pager.CurrentPage + 1)">Next</a>
+                </li>
+                <li class="page-item">
+                    <a class="page-link" href="/?p=@(Model.Pager.TotalPages)">Last</a>
+                </li>
+            }
+        </ul>
+    </nav>
+}
+

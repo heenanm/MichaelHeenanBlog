@@ -4,28 +4,62 @@
     ViewData["Title"] = "Admin Home page";
 }
 
-    <div class="bg-light">
-        <h1 class="display-4 text-center">Blog!</h1>
-      
-        <table class="table">
-            @foreach (var blogPost in Model.BlogPostSummarys)
-            {
-                <tr class="text-center">
-                    <td class="text-nowrap border-primary">@blogPost.Title</td>
-                    <td class="border-primary">@blogPost.DateCreated</td>
-                    <td class="border-primary">
-                        <div class="dropdown">
-                            <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                Edit/Delete Post
-                            </button>
-                            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                <a class="dropdown-item" asp-area="Admin" asp-page="/EditPost"  asp-route-blogPostId="@blogPost.BlogPostId">Edit Post</a>
-                                <a class="dropdown-item" asp-area="Admin" asp-page="/DeletePost" asp-route-blogPostId="@blogPost.BlogPostId">Delete Post</a>
-                            </div>
-                        </div>
-                    </td>
-                </tr>
-            }
-        </table>
+<div class="bg-light">
+    <h1 class="display-4 text-center">Blog!</h1>
 
-    </div>
+    <table class="table">
+        @foreach (var blogPost in Model.PagedPosts)
+        {
+            <tr class="text-center">
+                <td class="text-nowrap border-primary">@blogPost.Title</td>
+                <td class="border-primary">@blogPost.DateCreated</td>
+                <td class="border-primary">
+                    <div class="dropdown">
+                        <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Edit/Delete Post
+                        </button>
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                            <a class="dropdown-item" asp-area="Admin" asp-page="/EditPost" asp-route-blogPostId="@blogPost.BlogPostId">Edit Post</a>
+                            <a class="dropdown-item" asp-area="Admin" asp-page="/DeletePost" asp-route-blogPostId="@blogPost.BlogPostId">Delete Post</a>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+        }
+    </table>
+
+</div>
+
+@if (Model.Pager.Pages.Any())
+{
+    <nav class="table-responsive">
+        <ul class="pagination justify-content-center d-flex flex-wrap">
+            @if (Model.Pager.CurrentPage > 1)
+            {
+                <li class="page-item">
+                    <a class="page-link" href="/">First</a>
+                </li>
+                <li class="page-item">
+                    <a class="page-link" href="/?p=@(Model.Pager.CurrentPage - 1)">Previous</a>
+                </li>
+            }
+
+            @foreach (var p in Model.Pager.Pages)
+            {
+                <li class="page-item @(p == Model.Pager.CurrentPage ? "active" : "")">
+                    <a class="page-link" href="/?p=@p">@p</a>
+                </li>
+            }
+
+            @if (Model.Pager.CurrentPage < Model.Pager.TotalPages)
+            {
+                <li class="page-item">
+                    <a class="page-link" href="/?p=@(Model.Pager.CurrentPage + 1)">Next</a>
+                </li>
+                <li class="page-item">
+                    <a class="page-link" href="/?p=@(Model.Pager.TotalPages)">Last</a>
+                </li>
+            }
+        </ul>
+    </nav>
+}

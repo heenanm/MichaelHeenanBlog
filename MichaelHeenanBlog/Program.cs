@@ -34,22 +34,29 @@ namespace MichaelHeenanBlog
                 }
             }
 
+            var configuration = new ConfigurationBuilder()
+                               .AddJsonFile("appsettings.json")
+                               .Build();
+
+
+            Log.Logger = new LoggerConfiguration()
+                         .Enrich.WithProperty("Name", "Mick")
+                         .Enrich.WithProperty("Environment", Environment.GetEnvironmentVariable("SEQ_ENV") ?? "Test")
+                         .Enrich.WithProperty("Component", Environment.GetEnvironmentVariable("SEQ_COMP") ?? "Blog")
+                         .ReadFrom.Configuration(configuration)
+                         .MinimumLevel.Override("Microsoft", LogEventLevel.Warning)
+                         .Enrich.FromLogContext()
+                         .WriteTo.Seq(serverUrl: Environment.GetEnvironmentVariable("SEQ_URL") ?? "http://localhost:5341",
+                                       apiKey: Environment.GetEnvironmentVariable("SEQ_API_KEY"))
+                         
+                         .CreateLogger();
+
             host.Run();
         }
 
         public static IHostBuilder CreateHostBuilder(string[] args) =>
             Host.CreateDefaultBuilder(args)
-                .UseSerilog((hostingContext, loggerConfiguration) =>
-                {
-                    loggerConfiguration
-                        .Enrich.FromLogContext()
-                        .MinimumLevel.Is(hostingContext.Configuration.GetValue<LogEventLevel>("Serilog:LogEventLevel"));
-
-                    var seqUrl = "https://localhost:5341";
-
-                    loggerConfiguration.WriteTo.Seq
-                    (seqUrl);
-                })
+                .UseSerilog()
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
                     webBuilder.UseStartup<Startup>();

@@ -50,7 +50,7 @@ namespace MichaelHeenanBlog.Areas.Admin.Pages
             BlogPostSummarys = _dbContext
                 .BlogPosts
                 .OrderByDescending(b => b.CreatedAt)
-                .Select(blogPost => new BlogPostSummary(blogPost.Id, blogPost.Title, blogPost.Body, blogPost.Tags)).ToList();
+                .Select(blogPost => new BlogPostSummary(blogPost.Id, blogPost.CreatedAt, blogPost.Title, blogPost.Body, blogPost.Tags)).ToList();
         }
     }
 }

@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Markdig;
 using MichaelHeenanBlog.Data;
+using Microsoft.AspNetCore.Html;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
@@ -49,7 +51,7 @@ namespace MichaelHeenanBlog.Pages
             BlogPostSummarys = _dbContext
                 .BlogPosts
                 .OrderByDescending(b => b.CreatedAt)
-                .Select(blogPost => new BlogPostSummary(blogPost.Id, blogPost.Title, blogPost.Body, blogPost.Tags)).ToList();
+                .Select(blogPost => new BlogPostSummary(blogPost.Id, blogPost.CreatedAt, blogPost.Title, blogPost.Body, blogPost.Tags)).ToList();
         }
     }
 }

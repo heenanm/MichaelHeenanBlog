@@ -17,7 +17,9 @@ namespace MichaelHeenanBlog.Pages
             _blogDbContext = blogDbContext;
         }
 
-        public BlogPostEntity BlogPost { get; set; }
+        public List<CommentEntity> Comments { get; private set; }
+
+        public BlogPostSummary BlogPost { get; private set; }
 
         public IActionResult OnGet(Guid blogPostId)
         {
@@ -28,7 +30,7 @@ namespace MichaelHeenanBlog.Pages
 
         public void GetBlogPost(Guid blogPostId)
         {
-            BlogPost = _blogDbContext
+            var blogPost = _blogDbContext
                .BlogPosts
                .Select(b => new BlogPostEntity {
                 Id = b.Id, 
@@ -39,7 +41,9 @@ namespace MichaelHeenanBlog.Pages
                 Comments = b.Comments
                 })
                .SingleOrDefault(b => b.Id == blogPostId);
-        
+
+            BlogPost = new BlogPostSummary(blogPost.Id, blogPost.CreatedAt, blogPost.Title, blogPost.Body, blogPost.Tags);
+            Comments = blogPost.Comments.ToList();       
         }
     }
 }

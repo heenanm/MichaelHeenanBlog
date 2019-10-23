@@ -4,9 +4,10 @@
 }
 
     <div class="card mb-4 border-primary">
-        <div class="card-header text-center">
-            <a  asp-page="./ViewSingleBlogPost"
-                asp-route-blogPostId="@Model.BlogPostId">
+        <div class="card-header">
+            <span class="align-text-bottom text-left">@Model.DateCreated</span>
+            <a class="text-center" asp-page="./ViewSingleBlogPost"
+               asp-route-blogPostId="@Model.BlogPostId">
                 <h3>@Model.Title</h3>
             </a>
         </div>

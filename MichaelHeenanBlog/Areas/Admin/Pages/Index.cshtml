@@ -6,18 +6,13 @@
 
     <div class="bg-light">
         <h1 class="display-4 text-center">Blog!</h1>
-        @*
-        @foreach (var blogpost in Model.BlogPostSummarys)
-        {
-            <partial name="_BlogPostSummary" model="blogpost" />
-        }
-        *@
+      
         <table class="table">
             @foreach (var blogPost in Model.BlogPostSummarys)
             {
                 <tr class="text-center">
                     <td class="text-nowrap border-primary">@blogPost.Title</td>
-                    @*<td class="border-primary">@blogPost.Body</td>*@
+                    <td class="border-primary">@blogPost.DateCreated</td>
                     <td class="border-primary">
                         <div class="dropdown">
                             <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -28,12 +23,6 @@
                                 <a class="dropdown-item" asp-area="Admin" asp-page="/DeletePost" asp-route-blogPostId="@blogPost.BlogPostId">Delete Post</a>
                             </div>
                         </div>
-                        @*<a class="btn btn-outline-primary" asp-area="Admin" asp-page="/EditPost">
-                            Edit Post
-                        </a>
-                        <a class="btn btn-outline-primary" asp-area="Admin" asp-page="/DeletePost">
-                            Delete Post
-                        </a>*@
                     </td>
                 </tr>
             }

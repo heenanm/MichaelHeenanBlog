@@ -7,6 +7,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Serilog;
 
 namespace MichaelHeenanBlog
 {
@@ -65,6 +66,9 @@ namespace MichaelHeenanBlog
 
             // Stackify Middleware
             app.UseMiddleware<StackifyMiddleware.RequestTracerMiddleware>();
+
+            // Serilog Middleware
+            app.UseSerilogRequestLogging();
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();

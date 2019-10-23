@@ -10,16 +10,18 @@ namespace MichaelHeenanBlog.Data
     public class BlogPostSummary
     {
         public readonly Guid BlogPostId;
+        public readonly DateTime DateCreated;
         public readonly string Title;
         public readonly HtmlString Body;
         public readonly IReadOnlyCollection<TagEntity> Tags;
 
-        public BlogPostSummary(Guid blogPostId, string title, string body, List<TagEntity> tags)
+        public BlogPostSummary(Guid blogPostId, DateTime dateCreated, string title, string body, List<TagEntity> tags)
         {
             BlogPostId = blogPostId;
+            DateCreated = dateCreated;
             Title = title;
             Body = new HtmlString(Markdown.ToHtml(body));
             Tags = tags;
-        } 
+        }
     }
 }

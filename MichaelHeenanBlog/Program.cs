@@ -44,7 +44,7 @@ namespace MichaelHeenanBlog
                          .Enrich.WithProperty("Environment", configuration.GetValue<string>("Environment"))
                          .Enrich.WithProperty("Component", configuration.GetValue<string>("Component"))
                          .ReadFrom.Configuration(configuration)
-                         .MinimumLevel.Is(LogEventLevel.Information)
+                         .MinimumLevel.Is(configuration.GetValue<LogEventLevel>("Logging:LogLevel:Default"))
                          //.MinimumLevel.Override("Microsoft", LogEventLevel.Warning)
                          .Enrich.FromLogContext()
                          .WriteTo.Seq(serverUrl: configuration.GetValue<string>("Logging:Seq:Url"),

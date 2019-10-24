@@ -58,6 +58,12 @@ else
                 </div>
 
                 <p>@comment.Body</p>
+                
+                @if (User.Identity.IsAuthenticated)
+                {
+                    <a class="btn btn-danger" asp-area="Admin" asp-page="./DeleteComment"
+               asp-route-commentId="@comment.Id">Delete Comment</a>
+                }
             </div>
         </div>
     }

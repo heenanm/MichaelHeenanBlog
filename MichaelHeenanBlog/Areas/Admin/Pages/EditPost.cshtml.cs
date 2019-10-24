@@ -93,6 +93,7 @@ namespace MichaelHeenanBlog.Areas.Admin.Pages
 
             foreach (var tag in tagList)
             {
+
                 if (!string.IsNullOrEmpty(tag))
                 {
                     var urlSlug = helper.GenerateSlug(tag);

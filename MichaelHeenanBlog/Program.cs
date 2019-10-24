@@ -37,17 +37,18 @@ namespace MichaelHeenanBlog
             var configuration = new ConfigurationBuilder()
                                .AddJsonFile("appsettings.json")
                                .Build();
-
+            var setting = configuration.GetValue<string>("Logging:LogLevel:Default");
 
             Log.Logger = new LoggerConfiguration()
                          .Enrich.WithProperty("Name", "Mick")
-                         .Enrich.WithProperty("Environment", Environment.GetEnvironmentVariable("SEQ_ENV") ?? "Test")
-                         .Enrich.WithProperty("Component", Environment.GetEnvironmentVariable("SEQ_COMP") ?? "Blog")
+                         .Enrich.WithProperty("Environment", configuration.GetValue<string>("Environment"))
+                         .Enrich.WithProperty("Component", configuration.GetValue<string>("Component"))
                          .ReadFrom.Configuration(configuration)
-                         .MinimumLevel.Override("Microsoft", LogEventLevel.Warning)
+                         .MinimumLevel.Is(LogEventLevel.Information)
+                         //.MinimumLevel.Override("Microsoft", LogEventLevel.Warning)
                          .Enrich.FromLogContext()
-                         .WriteTo.Seq(serverUrl: Environment.GetEnvironmentVariable("SEQ_URL") ?? "http://localhost:5341",
-                                       apiKey: Environment.GetEnvironmentVariable("SEQ_API_KEY"))
+                         .WriteTo.Seq(serverUrl: configuration.GetValue<string>("Logging:Seq:Url"),
+                                       apiKey: configuration.GetValue<string>("Logging:Seq:ApiKey"))
                          
                          .CreateLogger();
 

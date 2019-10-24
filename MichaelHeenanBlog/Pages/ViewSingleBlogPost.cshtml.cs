@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using MichaelHeenanBlog.Data;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.EntityFrameworkCore;
 
 namespace MichaelHeenanBlog.Pages
 {
@@ -35,7 +36,7 @@ namespace MichaelHeenanBlog.Pages
 
         public IActionResult OnPost()
         {
-            PostComment();
+            PostComment(BlogPostId);
 
             return RedirectToPage("/ViewSingleBlogPost", BlogPostId);
 
@@ -59,24 +60,25 @@ namespace MichaelHeenanBlog.Pages
             Comments = blogPost.Comments.ToList();       
         }
 
-        public void PostComment()
+        public void PostComment(Guid Id)
         {
-            var blogPost = _blogDbContext
-                  .BlogPosts
-                  .Select(b => new BlogPostEntity
-                  {
-                      Id = b.Id,
-                      Title = b.Title,
-                      Body = b.Body,
-                      CreatedAt = b.CreatedAt,
-                      Tags = b.Tags,
-                      Comments = b.Comments
-                  })
-                  .SingleOrDefault(b => b.Id == BlogPostId);
+            var postToEdit = _blogDbContext.BlogPosts
+               .Include(b => b.Comments)
+               .SingleOrDefault(b => b.Id == Id);
 
-            blogPost.Comments.Add(new CommentEntity { BlogPostId = blogPost.Id, AuthorName = Comment.Author, CreatedAt = DateTime.UtcNow, Body = Comment.Comment});
-            _blogDbContext.SaveChangesAsync();
+            if (!string.IsNullOrEmpty(Comment.Author) && !string.IsNullOrEmpty(Comment.Comment))
+            { 
+                var commentEntity = new CommentEntity { 
+                BlogPostId = postToEdit.Id,
+                AuthorName = Comment.Author,
+                CreatedAt = DateTime.UtcNow,
+                Body = Comment.Comment
+                };
 
+                postToEdit.Comments.Add(commentEntity);
+            }
+
+            _blogDbContext.SaveChanges();
         }
 
         public class CommentInput

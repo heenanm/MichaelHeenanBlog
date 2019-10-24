@@ -37,23 +37,32 @@
 
 </div>
 
-<div class="card mb-4 border-primary">
-    
-    <div class="card-body">
-        @if (Model.Comments?.Any() != true)
-        {
-            <p>Blog Post has no Comments</p>
-        }
-        else
-        {
-            @foreach (var comment in Model.Comments)
-            {
-                <p>@comment.Body</p>
-            }
-        }
-    </div>
 
-</div>
+@if (Model.Comments?.Any() != true)
+{
+    <div class="card mb-4 border-primary text-center">
+        <div class="card-body">
+            <p>Blog Post has no Comments</p>
+        </div>
+    </div>
+}
+else
+{
+    @foreach (var comment in Model.Comments)
+    {
+        <div class="card mb-4 border-primary">
+            <div class="card-body">
+                
+                <div>
+                    <p><span class="text-monospace">@comment.AuthorName</span> <span class="text-monospace">@comment.CreatedAt</span></p>
+                </div>
+
+                <p>@comment.Body</p>
+            </div>
+        </div>
+    }
+}
+
 
 <form method="post">
     <div class="form-group">

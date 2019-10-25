@@ -1,11 +1,21 @@
-﻿@page
+﻿@page "{searchString?}"
 @model MichaelHeenanBlog.Areas.Admin.Pages.IndexModel
 @{
     ViewData["Title"] = "Admin Home page";
 }
 
 <div class="bg-light">
-    <h2 class="display-4 text-center">Edit Posts</h2>
+    <h2 class="display-4 text-center">Posts List</h2>
+
+    <form method="post">
+        <div class="form-group">
+            <label>
+                Search Posts
+                <input asp-for="SearchString" type="text" class="form-control" placeholder="Enter search terms" />
+            </label>
+            <input type="submit" value="Search" />
+        </div>
+    </form>
 
     <table class="table">
         @foreach (var blogPost in Model.PagedPosts)

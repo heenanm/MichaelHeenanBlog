@@ -18,6 +18,9 @@ namespace MichaelHeenanBlog.Areas.Admin.Pages
         [BindProperty]
         public List<BlogPostSummary> PagedPosts { get; set; }
 
+        [BindProperty(SupportsGet = true)]
+        public string SearchString { get; set; }
+
         public Pager Pager { get; set; }
         public int PageSize { get; set; }
         public int MaxPages { get; set; }
@@ -27,7 +30,7 @@ namespace MichaelHeenanBlog.Areas.Admin.Pages
             _logger = logger;
             _dbContext = dbContext;
             BlogPostSummarys = new List<BlogPostSummary>();
-            
+
             // properties for pager parameter controls
             PageSize = 10;
             MaxPages = 10;
@@ -35,9 +38,16 @@ namespace MichaelHeenanBlog.Areas.Admin.Pages
 
         public IActionResult OnGet(int p = 1)
         {
-            GetAllPostSummarys();
+            if (string.IsNullOrEmpty(SearchString))
+            {
+                GetAllPostSummarys();
+            }
+            else
+            {
+                GetFilteredPosts(SearchString);
+            }
 
-            // generate list of sample items to be paged
+            // generate list of  items to be paged
             var blogPostSummarys = BlogPostSummarys;
 
             // get pagination info for the current page
@@ -48,25 +58,27 @@ namespace MichaelHeenanBlog.Areas.Admin.Pages
 
             return Page();
         }
+        public IActionResult OnPost()
+        {
+            return OnGet(1);
+        }
+
 
         private void GetAllPostSummarys()
         {
-            //var posts = _dbContext.BlogPosts.Select(blogPost => new BlogPostSummary(blogPost.Title, blogPost.Body, blogPost.Tags));
-            //var enumerator = posts.GetEnumerator();
-
-            //while (enumerator.MoveNext()){
-            //    var post = enumerator.Current;
-            //}
-
-            //foreach (var post in posts)
-            //{
-            //    BlogPostSummarys.Add(post);
-            //}
-
             BlogPostSummarys = _dbContext
                 .BlogPosts
                 .OrderByDescending(b => b.CreatedAt)
                 .Select(blogPost => new BlogPostSummary(blogPost.Id, blogPost.CreatedAt, blogPost.Title, blogPost.Body, blogPost.Tags)).ToList();
+        }
+
+        private void GetFilteredPosts(string searchString)
+        {
+            BlogPostSummarys = _dbContext
+               .BlogPosts
+               .Where(b => b.Title.Contains(searchString) || b.Body.Contains(searchString))
+               .OrderByDescending(b => b.CreatedAt)
+               .Select(blogPost => new BlogPostSummary(blogPost.Id, blogPost.CreatedAt, blogPost.Title, blogPost.Body, blogPost.Tags)).ToList();
         }
     }
 }

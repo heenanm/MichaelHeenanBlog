@@ -38,7 +38,7 @@ namespace MichaelHeenanBlog.Pages
         {
             GetAllPostSummarys();
 
-            // generate list of sample items to be paged
+            // generate list of items to be paged
             var blogPostSummarys = BlogPostSummarys;
 
             // get pagination info for the current page

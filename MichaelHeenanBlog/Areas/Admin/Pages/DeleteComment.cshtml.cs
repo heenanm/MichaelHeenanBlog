@@ -14,8 +14,9 @@ namespace MichaelHeenanBlog.Areas.Admin.Pages
         private readonly BlogDbContext _blogDbContext;
 
         public Comment CommentData { get; private set; }
-
-        public Guid CommentId { get;  private set; }
+        
+        [BindProperty]
+        public Guid CommentId { get;  set; }
 
         public Guid CommentBlogPostId {get; private set;}
 
@@ -35,7 +36,7 @@ namespace MichaelHeenanBlog.Areas.Admin.Pages
         {
             DeleteComment(CommentId);
 
-            return RedirectToPage("/ViewSinglePage", CommentBlogPostId);
+            return RedirectToPage("/ViewSingleBlogPost", new { blogpostId = CommentBlogPostId }) ;
         }
 
         public void GetComment(Guid Id)
@@ -59,10 +60,8 @@ namespace MichaelHeenanBlog.Areas.Admin.Pages
                 Date = blogComment.CreatedAt
             };
 
-            CommentId = blogComment.Id;
-
             CommentBlogPostId = blogComment.BlogPostId;
-
+            CommentId = Id;
         }
 
         public void DeleteComment(Guid Id)
@@ -78,6 +77,8 @@ namespace MichaelHeenanBlog.Areas.Admin.Pages
                 CreatedAt = c.CreatedAt,
             })
             .SingleOrDefault(c => c.Id == Id);
+
+            CommentBlogPostId = blogComment.BlogPostId;
 
             _blogDbContext.Remove(blogComment);
             _blogDbContext.SaveChanges();

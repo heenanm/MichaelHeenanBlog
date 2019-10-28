@@ -28,8 +28,8 @@
                 @foreach (var tag in Model.Tags)
                 {
                     <a class="badge badge-pill badge-secondary"
-                       asp-page="./ViewSingleBlogPost"
-                       asp-route-blogPostId="@tag.BlogPostId">
+                       asp-page="./TagIndex"
+                       asp-route-urlFragment="@tag.UrlFragment">
                         @tag.DisplayName
                     </a>
                 }

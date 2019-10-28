@@ -27,7 +27,6 @@ namespace MichaelHeenanBlog.Pages
             _logger = logger;
             _dbContext = dbContext;
             BlogPostSummarys = new List<BlogPostSummary>();
-            logger.LogInformation("Index Reached");
             
             // properties for pager parameter controls
             PageSize = 10;

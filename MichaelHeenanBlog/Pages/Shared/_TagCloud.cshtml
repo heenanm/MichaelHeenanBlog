@@ -1,0 +1,12 @@
+﻿@using MichaelHeenanBlog.Data
+@model TagCloudData
+@{
+    Layout = "_TagCloudLayout";
+}
+
+    <div class="tag tag-cloud">
+        @foreach (var tag in Model.TagCloud)
+        {
+            <span class="tag kind-@tag.Category">@tag.Count @tag.Text</span>
+        }
+    </div>

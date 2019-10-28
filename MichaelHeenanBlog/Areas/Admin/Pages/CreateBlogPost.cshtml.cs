@@ -60,7 +60,7 @@ namespace MichaelHeenanBlog.Areas.Admin.Pages
                 {
                     BlogPostId = blogPost.Id,
                     DisplayName = tag,
-                    UrlFragment = urlSlug // Changed to use slugify System.Web.HttpUtility.UrlEncode(tag)
+                    UrlFragment = urlSlug 
             };
                 tagEntities.Add(tagEntity);
             }

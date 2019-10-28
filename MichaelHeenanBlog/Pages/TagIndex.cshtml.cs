@@ -7,6 +7,7 @@ using MichaelHeenanBlog.Data;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
+using Sparc.TagCloud;
 
 namespace MichaelHeenanBlog.Pages
 {
@@ -17,7 +18,10 @@ namespace MichaelHeenanBlog.Pages
         public List<BlogPostSummary> BlogPosts { get; private set; }
 
         [BindProperty]
-        public List<BlogPostSummary> PagedPosts { get; set; }
+        public List<BlogPostSummary> PagedPosts { get; private set; }
+
+        [BindProperty]
+        public List<TagCloudTag> TagCloud { get; private set; }
 
         public Pager Pager { get; set; }
         public int PageSize { get; set; }
@@ -46,6 +50,8 @@ namespace MichaelHeenanBlog.Pages
             // assign the current page of items to the Items property
             PagedPosts = blogPostSummarys.Skip((Pager.CurrentPage - 1) * Pager.PageSize).Take(Pager.PageSize).ToList();
 
+            TagCloud = GenerateTagCloud();
+
             return Page();
         }
 
@@ -66,6 +72,31 @@ namespace MichaelHeenanBlog.Pages
 
             BlogPosts = BlogPosts
                         .OrderByDescending(b => b.DateCreated).ToList();
+        }
+
+        private List<TagCloudTag> GenerateTagCloud()
+        {
+            var analyzer = new TagCloudAnalyzer();
+
+            var blogPostTags = _blogDbContext
+                               .BlogPosts
+                               .SelectMany
+                               (
+                                    b => b.Tags.Select
+                                    (
+                                        t => t.DisplayName
+                                    )
+                                ).ToList();
+
+            // blogPosts is an IEnumerable<String>, loaded from
+            // the database.
+            var tags = analyzer.ComputeTagCloud(blogPostTags);
+
+            // Shuffle the tags, if you like for a random
+            // display
+            tags = tags.Shuffle();
+
+            return tags.ToList();
         }
     }
 }

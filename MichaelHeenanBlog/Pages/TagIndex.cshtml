@@ -49,13 +49,24 @@
             </nav>
         }
 
-            <div class="tag tag-cloud">
-                <h4 class="text-center">Tag Cloud</h4>
-                @foreach (var tag in Model.TagCloud)
-                {
-                    <span class="tag kind-@tag.Category">@tag.Text</span>
-                }
-            </div>
+        <div class="tag tag-cloud">
+            <h4 class="text-center">Tag Cloud</h4>
+            @foreach (var tag in Model.TagCloud)
+            {
+                <span class="tag kind-@tag.Category">@tag.Text</span>
+            }
+        </div>
+
+
+
+        <div class="tag tag-cloud">
+            <h4 class="text-center">Tag Cloud</h4>
+            @foreach (var tag in Model.TagGroupInfo)
+            {
+        
+                <a class="tag kind-@tag.Category" href="/TagIndex/@tag.UrlSlug">@tag.DisplayName</a>
+            }
+        </div>
 
     </div>
 

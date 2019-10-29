@@ -7,6 +7,7 @@ using MichaelHeenanBlog.Data;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
+using Slugify;
 using Sparc.TagCloud;
 
 namespace MichaelHeenanBlog.Pages
@@ -22,6 +23,8 @@ namespace MichaelHeenanBlog.Pages
         public List<BlogPostSummary> PagedPosts { get; private set; }
 
         public List<TagCloudTag> TagCloud { get; private set; }
+
+        public List<TagInfo> TagGroupInfo { get; set; }
 
         public Pager Pager { get; set; }
         public int PageSize { get; set; }
@@ -51,6 +54,8 @@ namespace MichaelHeenanBlog.Pages
             PagedPosts = blogPostSummarys.Skip((Pager.CurrentPage - 1) * Pager.PageSize).Take(Pager.PageSize).ToList();
 
             TagCloud = GenerateTagCloud();
+
+            TagGroupInfo = GenerateTagInfo();
 
             return Page();
         }
@@ -94,6 +99,61 @@ namespace MichaelHeenanBlog.Pages
             tags = tags.Shuffle();
 
             return tags.ToList();
+        }
+
+        private List<TagInfo> GenerateTagInfo()
+        {
+            var blogPostTags = _blogDbContext
+                              .Tags
+                              .Select(t => t.DisplayName)
+                              .ToList();
+
+            var groupTags = blogPostTags.GroupBy(t => t);
+
+            var randomGroupList = groupTags.OrderBy(a => Guid.NewGuid());
+
+
+            var tagInfoList = new List<TagInfo>();
+
+            foreach (var tag in randomGroupList)
+            {
+                var helper = new SlugHelper();
+                var tagInfo = new TagInfo()
+                {
+                    DisplayName = tag.Key,
+                    TagCount = tag.Count(),
+                    Category = GenerateCategory(),
+                    UrlSlug = helper.GenerateSlug(tag.Key)
+                };
+
+                tagInfoList.Add(tagInfo);
+            }
+
+            return tagInfoList;
+        }
+
+        public class TagInfo
+        {
+            public string DisplayName { get; set; }
+            public int TagCount { get; set; }
+            public int Category { get; set; }
+            public string UrlSlug { get; set; }
+        }
+
+        private int GenerateCategory()
+        {
+            //var total = _blogDbContext
+            //                  .Tags
+            //                  .Select(t => t.DisplayName)
+            //                  .Count();
+
+            //var category = ((double)count / total * 10);
+
+
+            //return (int)category;
+
+            var rnd = new Random();
+            return rnd.Next(10);
         }
     }
 }

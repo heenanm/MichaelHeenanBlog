@@ -99,11 +99,7 @@ namespace MichaelHeenanBlog.Pages
             // display
             tags = tags.Shuffle();
 
-            var tagCloudData = new TagCloudData();
-
-            tagCloudData.TagCloud = tags.ToList();
-
-            return tagCloudData.TagCloud;
+            return tags.ToList();
         }
     }
 }

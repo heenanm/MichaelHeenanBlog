@@ -56,7 +56,7 @@
             <div class="tag tag-cloud">
                 @foreach (var tag in Model.TagCloud)
                 {
-                    <span class="tag kind-@tag.Category">@tag.Text</span>
+                    <span class="tag kind-@tag.Category">@tag.Count @tag.Text</span>
                 }
             </div>
         </aside>

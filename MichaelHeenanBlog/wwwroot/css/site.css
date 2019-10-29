@@ -70,10 +70,14 @@ body {
   line-height: 60px; /* Vertically center the text there */
 }
 
+
 .tag-cloud {
     padding: 100px;
     text-align: center;
-    opacity: 0;
+    
+    font: 1em Arial, San-Serif;
+    color: #FFF;
+    background: #606D7D;
 }
 
 .tag {

@@ -49,18 +49,13 @@
             </nav>
         }
 
-
-        @*<partial name="_TagCloud" model="Model.TagCloud" />*@
-
-        <aside>
             <div class="tag tag-cloud">
+                <h4 class="text-center">Tag Cloud</h4>
                 @foreach (var tag in Model.TagCloud)
                 {
-                    <span class="tag kind-@tag.Category">@tag.Count @tag.Text</span>
+                    <span class="tag kind-@tag.Category">@tag.Text</span>
                 }
             </div>
-        </aside>
-
 
     </div>
 

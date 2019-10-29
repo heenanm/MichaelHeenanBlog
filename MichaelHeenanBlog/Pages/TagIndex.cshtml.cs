@@ -82,14 +82,9 @@ namespace MichaelHeenanBlog.Pages
             var analyzer = new TagCloudAnalyzer();
 
             var blogPostTags = _blogDbContext
-                               .BlogPosts
-                               .SelectMany
-                               (
-                                    b => b.Tags.Select
-                                    (
-                                        t => t.DisplayName
-                                    )
-                                ).ToList();
+                               .Tags
+                               .Select(t => t.DisplayName)
+                               .ToList();
 
             // blogPosts is an IEnumerable<String>, loaded from
             // the database.

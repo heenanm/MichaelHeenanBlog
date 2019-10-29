@@ -17,10 +17,11 @@ namespace MichaelHeenanBlog.Data
 
         public BlogPostSummary(Guid blogPostId, DateTime dateCreated, string title, string body, List<TagEntity> tags)
         {
+            var pipeline = new MarkdownPipelineBuilder().UseEmphasisExtras().Build();
             BlogPostId = blogPostId;
             DateCreated = dateCreated;
             Title = title;
-            Body = new HtmlString(Markdown.ToHtml(body));
+            Body = new HtmlString(Markdown.ToHtml(body, pipeline));
             Tags = tags;
         }
     }

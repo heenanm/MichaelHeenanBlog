@@ -17,6 +17,7 @@ namespace MichaelHeenanBlog.Pages
 
         public List<BlogPostSummary> BlogPosts { get; private set; }
 
+        public string UrlFragment { get; set; }
         [BindProperty]
         public List<BlogPostSummary> PagedPosts { get; private set; }
 
@@ -57,6 +58,8 @@ namespace MichaelHeenanBlog.Pages
 
         private void GetBlogPosts(string urlFragment)
         {
+            UrlFragment = urlFragment;
+
             var blogPostIds = _blogDbContext.Tags
                             .Where(t => t.UrlFragment == urlFragment)
                             .Select(t => t.BlogPostId).ToList();
@@ -96,7 +99,11 @@ namespace MichaelHeenanBlog.Pages
             // display
             tags = tags.Shuffle();
 
-            return tags.ToList();
+            var tagCloudData = new TagCloudData();
+
+            tagCloudData.TagCloud = tags.ToList();
+
+            return tagCloudData.TagCloud;
         }
     }
 }

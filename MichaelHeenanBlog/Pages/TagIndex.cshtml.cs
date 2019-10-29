@@ -18,10 +18,9 @@ namespace MichaelHeenanBlog.Pages
         public List<BlogPostSummary> BlogPosts { get; private set; }
 
         public string UrlFragment { get; set; }
-        [BindProperty]
+        
         public List<BlogPostSummary> PagedPosts { get; private set; }
 
-        [BindProperty]
         public List<TagCloudTag> TagCloud { get; private set; }
 
         public Pager Pager { get; set; }

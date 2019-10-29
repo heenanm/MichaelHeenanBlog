@@ -5,6 +5,7 @@ using MichaelHeenanBlog.Data;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
+using Sparc.TagCloud;
 
 namespace MichaelHeenanBlog.Pages
 {
@@ -14,8 +15,9 @@ namespace MichaelHeenanBlog.Pages
         private readonly BlogDbContext _dbContext;
         
         public List<BlogPostSummary> BlogPostSummarys { get; private set; }
-        
-        [BindProperty]
+
+        public List<TagCloudTag> TagCloud { get; private set; }
+
         public List<BlogPostSummary> PagedPosts { get; set; }
         
         public Pager Pager { get; set; }
@@ -46,6 +48,8 @@ namespace MichaelHeenanBlog.Pages
             // assign the current page of items to the Items property
             PagedPosts = blogPostSummarys.Skip((Pager.CurrentPage - 1) * Pager.PageSize).Take(Pager.PageSize).ToList();
 
+            TagCloud = GenerateTagCloud();
+
             return Page();
         }
 
@@ -55,6 +59,26 @@ namespace MichaelHeenanBlog.Pages
                 .BlogPosts
                 .OrderByDescending(b => b.CreatedAt)
                 .Select(blogPost => new BlogPostSummary(blogPost.Id, blogPost.CreatedAt, blogPost.Title, blogPost.Body, blogPost.Tags)).ToList();
+        }
+
+        private List<TagCloudTag> GenerateTagCloud()
+        {
+            var analyzer = new TagCloudAnalyzer();
+
+            var blogPostTags = _dbContext
+                               .Tags
+                               .Select(t => t.DisplayName)
+                               .ToList();
+
+            // blogPosts is an IEnumerable<String>, loaded from
+            // the database.
+            var tags = analyzer.ComputeTagCloud(blogPostTags);
+
+            // Shuffle the tags, if you like for a random
+            // display
+            tags = tags.Shuffle();
+
+            return tags.ToList();
         }
     }
 }

@@ -25,9 +25,9 @@
         {
             @foreach (var tag in Model.BlogPost.Tags)
             {
-                <a class="badge badge-pill badge-secondary text-center"
-                   asp-page="./ViewSingleBlogPost"
-                   asp-route-blogPostId="@tag.BlogPostId">
+                <a class="badge badge-pill badge-secondary"
+                   asp-page="./TagIndex"
+                   asp-route-urlFragment="@tag.UrlFragment">
                     @tag.DisplayName
                 </a>
             }

@@ -18,7 +18,7 @@ namespace MichaelHeenanBlog.Data
 
         public BlogPostSummary(Guid blogPostId, DateTime dateCreated, string title, string body, List<TagEntity> tags)
         {
-            var pipeline = new MarkdownPipelineBuilder().UseEmphasisExtras().Build();
+            var pipeline = new MarkdownPipelineBuilder().UseAdvancedExtensions().Build();
             BlogPostId = blogPostId;
             DateCreated = dateCreated;
             Title = title;

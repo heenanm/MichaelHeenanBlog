@@ -1,10 +1,12 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using JW;
 using MichaelHeenanBlog.Data;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
+using Slugify;
 using Sparc.TagCloud;
 
 namespace MichaelHeenanBlog.Pages
@@ -17,6 +19,8 @@ namespace MichaelHeenanBlog.Pages
         public List<BlogPostSummary> BlogPostSummarys { get; private set; }
 
         public List<TagCloudTag> TagCloud { get; private set; }
+
+        public List<TagInfo> TagGroupInfo { get; set; }
 
         public List<BlogPostSummary> PagedPosts { get; set; }
         
@@ -48,7 +52,9 @@ namespace MichaelHeenanBlog.Pages
             // assign the current page of items to the Items property
             PagedPosts = blogPostSummarys.Skip((Pager.CurrentPage - 1) * Pager.PageSize).Take(Pager.PageSize).ToList();
 
-            TagCloud = GenerateTagCloud();
+            //TagCloud = GenerateTagCloud();
+
+            TagGroupInfo = GenerateTagInfo();
 
             return Page();
         }
@@ -79,6 +85,58 @@ namespace MichaelHeenanBlog.Pages
             tags = tags.Shuffle();
 
             return tags.ToList();
+        }
+
+        // Tag Cloud and tag information generated without sparc.tagcloud
+        private List<TagInfo> GenerateTagInfo()
+        {
+            var blogPostTags = _dbContext
+                              .Tags
+                              .Select(t => t.DisplayName)
+                              .ToList();
+
+            var groupTags = blogPostTags.GroupBy(t => t)
+                                        .OrderBy(t => t.Count());
+
+            var maxTagCount = groupTags.Last().Count();
+
+            var randomGroup = groupTags.OrderBy(a => Guid.NewGuid());
+
+            var tagInfoList = new List<TagInfo>();
+
+            foreach (var tag in randomGroup)
+            {
+                var helper = new SlugHelper();
+                var tagInfo = new TagInfo()
+                {
+                    DisplayName = tag.Key,
+                    TagCount = tag.Count(),
+                    Category = GenerateCategory(tag.Count(), maxTagCount),
+                    UrlSlug = helper.GenerateSlug(tag.Key)
+                };
+
+                tagInfoList.Add(tagInfo);
+            }
+
+            return tagInfoList;
+        }
+
+        public class TagInfo
+        {
+            public string DisplayName { get; set; }
+            public int TagCount { get; set; }
+            public int Category { get; set; }
+            public string UrlSlug { get; set; }
+        }
+
+        private int GenerateCategory(int tagCount, int maxTagCount)
+        {
+            var category = 10 - ((double)tagCount / (double)maxTagCount) * 10;
+
+            return (int)category;
+
+            //var rnd = new Random();
+            //return rnd.Next(10);
         }
     }
 }

@@ -53,7 +53,7 @@ namespace MichaelHeenanBlog.Pages
             // assign the current page of items to the Items property
             PagedPosts = blogPostSummarys.Skip((Pager.CurrentPage - 1) * Pager.PageSize).Take(Pager.PageSize).ToList();
 
-            TagCloud = GenerateTagCloud();
+            //TagCloud = GenerateTagCloud();
 
             TagGroupInfo = GenerateTagInfo();
 
@@ -81,26 +81,29 @@ namespace MichaelHeenanBlog.Pages
                         .OrderByDescending(b => b.DateCreated).ToList();
         }
 
-        private List<TagCloudTag> GenerateTagCloud()
-        {
-            var analyzer = new TagCloudAnalyzer();
 
-            var blogPostTags = _blogDbContext
-                               .Tags
-                               .Select(t => t.DisplayName)
-                               .ToList();
+        //// Tag Cloud using sparc.tagcloud (lemmatisation) 
+        //private List<TagCloudTag> GenerateTagCloud()
+        //{
+        //    var analyzer = new TagCloudAnalyzer();
 
-            // blogPosts is an IEnumerable<String>, loaded from
-            // the database.
-            var tags = analyzer.ComputeTagCloud(blogPostTags);
+        //    var blogPostTags = _blogDbContext
+        //                       .Tags
+        //                       .Select(t => t.DisplayName)
+        //                       .ToList();
 
-            // Shuffle the tags, if you like for a random
-            // display
-            tags = tags.Shuffle();
+        //    // blogPosts is an IEnumerable<String>, loaded from
+        //    // the database.
+        //    var tags = analyzer.ComputeTagCloud(blogPostTags);
 
-            return tags.ToList();
-        }
+        //    // Shuffle the tags, if you like for a random
+        //    // display
+        //    tags = tags.Shuffle();
 
+        //    return tags.ToList();
+        //}
+
+        // Tag Cloud and tag information generated without sparc.tagcloud
         private List<TagInfo> GenerateTagInfo()
         {
             var blogPostTags = _blogDbContext
@@ -108,21 +111,23 @@ namespace MichaelHeenanBlog.Pages
                               .Select(t => t.DisplayName)
                               .ToList();
 
-            var groupTags = blogPostTags.GroupBy(t => t);
+            var groupTags = blogPostTags.GroupBy(t => t)
+                                        .OrderBy(t => t.Count());
+            
+            var maxTagCount = groupTags.Last().Count();
 
-            var randomGroupList = groupTags.OrderBy(a => Guid.NewGuid());
-
+            var randomGroup = groupTags.OrderBy(a => Guid.NewGuid());
 
             var tagInfoList = new List<TagInfo>();
 
-            foreach (var tag in randomGroupList)
+            foreach (var tag in randomGroup)
             {
                 var helper = new SlugHelper();
                 var tagInfo = new TagInfo()
                 {
                     DisplayName = tag.Key,
                     TagCount = tag.Count(),
-                    Category = GenerateCategory(),
+                    Category = GenerateCategory(tag.Count(), maxTagCount),
                     UrlSlug = helper.GenerateSlug(tag.Key)
                 };
 
@@ -140,20 +145,14 @@ namespace MichaelHeenanBlog.Pages
             public string UrlSlug { get; set; }
         }
 
-        private int GenerateCategory()
+        private int GenerateCategory(int tagCount, int maxTagCount)
         {
-            //var total = _blogDbContext
-            //                  .Tags
-            //                  .Select(t => t.DisplayName)
-            //                  .Count();
+            var category = 10 - ((double)tagCount / (double)maxTagCount) * 10;
 
-            //var category = ((double)count / total * 10);
+            return (int)category;
 
-
-            //return (int)category;
-
-            var rnd = new Random();
-            return rnd.Next(10);
+            //var rnd = new Random();
+            //return rnd.Next(10);
         }
     }
 }

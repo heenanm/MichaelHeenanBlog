@@ -5,14 +5,26 @@
 
     <div class="card mb-4 border-primary">
         <div class="card-header">
-            <span class="align-text-bottom text-left">@Model.DateCreated</span>
+            <span class="text-left">@Model.DateCreated</span>
             <a class="text-center" asp-page="./ViewSingleBlogPost"
                asp-route-blogPostId="@Model.BlogPostId">
                 <h3>@Model.Title</h3>
             </a>
         </div>
         <div class="card-body align-text-top" style="max-height:100px; overflow-y:auto;">
+           
             <p>@Model.Body</p>
+        </div>
+
+        <div class="card-footer text-center">
+            @if (Model.TimeToRead == 1)
+            {
+                <p class="text-left">Time to read approximately @Model.TimeToRead minute</p>
+            }
+            else
+            {
+                <p class="text-left">Time to read approximately @Model.TimeToRead minutes</p>
+            }
         </div>
 
         <div class="card-footer text-center">
@@ -28,13 +40,13 @@
                 @foreach (var tag in Model.Tags)
                 {
                     <a class="badge badge-pill badge-secondary"
-                       asp-page="./TagIndex"
-                       asp-route-urlFragment="@tag.UrlFragment">
+                        asp-page="./TagIndex"
+                        asp-route-urlFragment="@tag.UrlFragment">
                         @tag.DisplayName
                     </a>
                 }
             }
-       
+
         </div>
 
     </div>

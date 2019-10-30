@@ -14,6 +14,7 @@ namespace MichaelHeenanBlog.Data
         public readonly string Title;
         public readonly HtmlString Body;
         public readonly IReadOnlyCollection<TagEntity> Tags;
+        public readonly int TimeToRead;
 
         public BlogPostSummary(Guid blogPostId, DateTime dateCreated, string title, string body, List<TagEntity> tags)
         {
@@ -23,6 +24,8 @@ namespace MichaelHeenanBlog.Data
             Title = title;
             Body = new HtmlString(Markdown.ToHtml(body, pipeline));
             Tags = tags;
+            var wordCount = body.Split().Where(x => !string.IsNullOrEmpty(x)).Count();
+            TimeToRead = (int)Math.Ceiling((double)wordCount / (double)250);
         }
     }
 }

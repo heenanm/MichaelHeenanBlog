@@ -23,7 +23,7 @@ namespace MichaelHeenanBlog.Data
             DateCreated = dateCreated;
             Title = title;
             Body = new HtmlString(Markdown.ToHtml(body, pipeline));
-            Tags = tags;
+            Tags = tags; 
             var wordCount = body.Split().Where(x => !string.IsNullOrEmpty(x)).Count();
             TimeToRead = (int)Math.Ceiling((double)wordCount / (double)250);
         }

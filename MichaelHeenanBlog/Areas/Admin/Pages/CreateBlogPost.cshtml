@@ -9,14 +9,14 @@
     <div class="form-group">
         <label>
             Title
-            <input asp-for="BlogPost.Title" type="text" class="form-control" aria-describedby="titleHelp" placeholder="Title">
+            <input asp-for="BlogPost.Title" type="text" class="form-control" aria-describedby="titleHelp" placeholder="Title" required>
         </label>
         <small id="titleHelp" class="form-text text-muted">The title of the blog post</small>
     </div>
     <div class="form-group">
         <label>
             Body
-            <textarea asp-for="BlogPost.Body" type="text" class="form-control " cols="150" rows="5" aria-describedby="bodyHelp" placeholder="Body"></textarea>
+            <textarea asp-for="BlogPost.Body" type="text" class="form-control " cols="150" rows="5" aria-describedby="bodyHelp" placeholder="Body" required></textarea>
         </label>
         <small id="bodyHelp" class="form-text text-muted">The body of the blog post</small>
     </div>

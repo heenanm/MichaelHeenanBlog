@@ -5,7 +5,7 @@
     Layout = "_Layout3";
 }
 
-<div class="card mb-4 border-primary">
+@*<div class="card mb-4 border-primary">
     <div class="card-header">
         <span class="align-text-bottom text-left">@Model.BlogPost.DateCreated</span>
         <h3 class="text-center">@Model.BlogPost.Title</h3>
@@ -36,58 +36,94 @@
 
     </div>
 
-</div>
+</div>*@
+<hr/>
+    <div class="post-preview mb-4">
+        <p class="post-meta text-right">@Model.BlogPost.DateCreated</p>
+        <a class="text-center post-title" asp-page="./ViewSingleBlogPost"
+           asp-route-blogPostId="@Model.BlogPost.BlogPostId">
+            <h1>@Model.BlogPost.Title</h1>
+        </a>
 
-<a href="https://twitter.com/share?ref_src=twsrc%5Etfw" class="twitter-share-button" data-size="large" data-text="Take a Look at this Post!" data-show-count="false">Tweet</a>
-<script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+        <hr />
 
-@if (Model.Comments?.Any() != true)
-{
-    <div class="card mb-4 border-primary text-center">
-        <div class="card-body">
-            <p>Blog Post has no Comments</p>
+        <div class="post-subtitle mb-4">
+            <p>@Model.BlogPost.Body</p>
         </div>
-    </div>
-}
-else
-{
-    @foreach (var comment in Model.Comments)
-    {
-        <div class="card mb-4 border-primary">
-            <div class="card-body">
 
-                <div>
-                    <p><span class="text-monospace">@comment.AuthorName</span> <span class="text-monospace">@comment.CreatedAt</span></p>
+        <div class="text-center">
+
+            @if (Model.BlogPost.Tags?.Any() != true)
+            {
+                <div class="text-center">
+                    <p>Blog Post has no tags</p>
                 </div>
-
-                <p>@comment.Body</p>
-
-                @if (User.Identity.IsAuthenticated)
+            }
+            else
+            {
+                @foreach (var tag in Model.BlogPost.Tags)
                 {
-                    <a class="btn btn-danger" asp-area="Admin" asp-page="./DeleteComment"
-                       asp-route-commentId="@comment.Id">Delete Comment</a>
+                    <a class="badge badge-pill badge-secondary"
+                       asp-page="./TagIndex"
+                       asp-route-urlFragment="@tag.UrlFragment">
+                        @tag.DisplayName
+                    </a>
                 }
-            </div>
+            }
+
         </div>
-    }
-}
+
+        <a href="https://twitter.com/share?ref_src=twsrc%5Etfw" class="twitter-share-button" data-size="large" data-text="Take a Look at this Post!" data-show-count="false">Tweet</a>
+        <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+
+        @if (Model.Comments?.Any() != true)
+        {
+            <div class="card mb-4 border-secondary text-center">
+                <div class="card-body">
+                    <p>Blog Post has no Comments</p>
+                </div>
+            </div>
+        }
+        else
+        {
+            @foreach (var comment in Model.Comments)
+            {
+                <div class="card mb-4 border-secondary">
+                    <div class="card-body">
+
+                        <div>
+                            <p><span class="text-monospace">@comment.AuthorName</span> <span class="text-monospace">@comment.CreatedAt</span></p>
+                        </div>
+
+                        <p>@comment.Body</p>
+
+                        @if (User.Identity.IsAuthenticated)
+                        {
+                            <a class="btn btn-danger" asp-area="Admin" asp-page="./DeleteComment"
+                               asp-route-commentId="@comment.Id">Delete Comment</a>
+                        }
+                    </div>
+                </div>
+            }
+        }
 
 
-<form method="post">
-    <div class="form-group">
-        <input type="hidden" asp-for="BlogPostId" value="@Model.BlogPost.BlogPostId" />
-        <label>
-            Name
-            <input asp-for="Comment.Author" type="text" class="form-control" aria-describedby="nameHelp" placeholder="Name">
-        </label>
-        <small id="nameHelp" class="form-text text-muted">Name</small>
+        <form method="post">
+            <div class="form-group">
+                <input type="hidden" asp-for="BlogPostId" value="@Model.BlogPost.BlogPostId" />
+                <label>
+                    Name
+                    <input asp-for="Comment.Author" type="text" class="form-control" aria-describedby="nameHelp" placeholder="Name">
+                </label>
+                <small id="nameHelp" class="form-text text-muted">Name</small>
+            </div>
+            <div class="form-group">
+                <label>
+                    Comment
+                    <textarea asp-for="Comment.Comment" type="text" class="form-control " cols="150" rows="5" aria-describedby="bodyHelp" placeholder="Comment"></textarea>
+                </label>
+                <small id="bodyHelp" class="form-text text-muted">Add Comment</small>
+            </div>
+            <button type="submit" class="btn btn-primary">Comment</button>
+        </form>
     </div>
-    <div class="form-group">
-        <label>
-            Comment
-            <textarea asp-for="Comment.Comment" type="text" class="form-control " cols="150" rows="5" aria-describedby="bodyHelp" placeholder="Comment"></textarea>
-        </label>
-        <small id="bodyHelp" class="form-text text-muted">Add Comment</small>
-    </div>
-    <button type="submit" class="btn btn-primary">Comment</button>
-</form>

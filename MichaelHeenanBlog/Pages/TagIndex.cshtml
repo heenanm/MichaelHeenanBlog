@@ -1,17 +1,22 @@
 ﻿@page "{urlFragment?}"
 @model MichaelHeenanBlog.Pages.TagIndexModel
 @{
-    ViewData["Title"] = "TagIndex";
+    ViewData["Title"] = "Matched Tags";
+    Layout = "_Layout3";
 }
 
-    <div class="bg-light">
+    <div>
+        <hr />
+
         <h1 class="display-4 text-center">Posts with matching tags</h1>
+
+        <hr />
 
         <div class="container">
 
             @foreach (var blogpost in Model.PagedPosts)
             {
-                <partial name="_BlogPostSummary" model="blogpost" />
+                <partial name="_BlogPostSummary2" model="blogpost" />
             }
         </div>
 

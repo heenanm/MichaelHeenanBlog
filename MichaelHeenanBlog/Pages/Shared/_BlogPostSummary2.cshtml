@@ -1,0 +1,49 @@
+﻿@using MichaelHeenanBlog.Data
+@model BlogPostSummary
+@{
+}
+
+<div class="post-preview mb-4">
+    <p class="post-meta text-right">@Model.DateCreated</p>
+        <a class="text-left post-title" asp-page="./ViewSingleBlogPost"
+           asp-route-blogPostId="@Model.BlogPostId">
+            <h1>@Model.Title</h1>
+        </a>
+    
+    <div class="post-subtitle mb-4" style="max-height:100px; overflow-y:auto;">
+        <p>@Model.Body</p>
+    </div>
+
+        @if (Model.TimeToRead == 1)
+        {
+            <p class="post-meta">Time to read approximately @Model.TimeToRead minute</p>
+        }
+        else
+        {
+            <p class="post-meta">Time to read approximately @Model.TimeToRead minutes</p>
+        }
+
+    <div class="text-center">
+
+        @if (Model.Tags?.Any() != true)
+        {
+            <div class="text-center">
+                <p>Blog Post has no tags</p>
+            </div>
+        }
+        else
+        {
+            @foreach (var tag in Model.Tags)
+            {
+                <a class="badge badge-pill badge-secondary"
+                   asp-page="./TagIndex"
+                   asp-route-urlFragment="@tag.UrlFragment">
+                    @tag.DisplayName
+                </a>
+            }
+        }
+
+    </div>
+
+</div>
+<hr>

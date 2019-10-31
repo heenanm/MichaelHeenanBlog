@@ -2,16 +2,18 @@
 @model MichaelHeenanBlog.Pages.IndexModel
 @{
     ViewData["Title"] = "Home page";
+
+    Layout = "_Layout2";
 }
 
-<div class="bg-light">
-    <h1 class="display-4 text-center">Blog!</h1>
+@*<div class="bg-light">*@
+    @*<h1 class="display-4 text-center">Blog!</h1>*@
 
     @foreach (var blogpost in Model.PagedPosts)
     {
-        <partial name="_BlogPostSummary" model="blogpost" />
+        <partial name="_BlogPostSummary2" model="blogpost" />
     }
-</div>
+@*</div>*@
 
 @if (Model.Pager.Pages.Any())
 {

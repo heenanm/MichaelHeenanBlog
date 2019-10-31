@@ -1,0 +1,121 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>@ViewData["Title"]</title>
+
+    <!-- Bootstrap core CSS -->
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+
+    <!-- Custom fonts for this template -->
+    <link href='https://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/css'>
+
+    <!-- Custom styles for this template -->
+    <link rel="stylesheet" href="~/css/site.css" />
+
+    <link href="~/css/clean-blog.min.css" rel="stylesheet">
+
+</head>
+
+<body>
+
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-light fixed-top" id="mainNav">
+        <div class="container">
+            @if (!User.Identity.IsAuthenticated)
+            {
+                <a class="navbar-brand" asp-area="" asp-page="/Index">Michael Heenan Blog</a>
+
+            }
+
+            @if (User.Identity.IsAuthenticated)
+            {
+                <a class="navbar-brand" asp-area="" asp-page="/Index">Administrator</a>
+
+            }
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                    aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarResponsive">
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" asp-area="" asp-page="/Index">Home</a>
+                    </li>
+
+                    @if (!User.Identity.IsAuthenticated)
+                    {
+                        <li class="nav-item">
+                            <a class="nav-link" asp-area="" asp-page="/SignIn">Sign In</a>
+                        </li>
+                    }
+
+                    @if (User.Identity.IsAuthenticated)
+                    {
+                        <li class="nav-item">
+                            <a class="nav-link" asp-area="Admin" asp-page="/Index">Post List</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" asp-area="Admin" asp-page="/CreateBlogPost">Create Post</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" asp-area="Admin" asp-page="/SignOut">Sign Out</a>
+                        </li>
+                    }
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Page Header -->
+    <header class="masthead" style="background-image: url(home-bg.jpg)">
+        <div class="overlay"></div>
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12 col-md-10 mx-auto">
+                    <div class="site-heading">
+                        <h1>Blog!</h1>
+                        <span class="subheading">Michael Heenan Blog</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <div class="container">
+        <div class="">
+            <div class="col-lg-12 col-md-10 mx-auto">
+                @RenderBody()
+            </div>
+        </div>
+    </div>
+
+    <hr>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 col-md-10 mx-auto">
+                    <p class="copyright text-muted">Copyright &copy; Michael Heenan Blog 2019</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+
+    @RenderSection("Scripts", required: false)
+</body>
+
+</html>

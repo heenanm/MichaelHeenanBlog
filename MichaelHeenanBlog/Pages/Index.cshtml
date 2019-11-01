@@ -9,6 +9,16 @@
 @*<div class="bg-light">*@
     @*<h1 class="display-4 text-center">Blog!</h1>*@
 
+    <form method="post">
+        <div class="form-group">
+            <label>
+                Search Posts
+                <input asp-for="SearchString" type="text" class="form-control" placeholder="Enter search terms" />
+            </label>
+            <input type="submit" value="Search" />
+        </div>
+    </form>
+
     @foreach (var blogpost in Model.PagedPosts)
     {
         <partial name="_BlogPostSummary2" model="blogpost" />

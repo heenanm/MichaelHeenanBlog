@@ -15,7 +15,10 @@ namespace MichaelHeenanBlog.Pages
     {
         private readonly ILogger<IndexModel> _logger;
         private readonly BlogDbContext _dbContext;
-        
+
+        [BindProperty(SupportsGet = true)]
+        public string SearchString { get; set; }
+
         public List<BlogPostSummary> BlogPostSummarys { get; private set; }
 
         public List<TagCloudTag> TagCloud { get; private set; }
@@ -41,7 +44,14 @@ namespace MichaelHeenanBlog.Pages
 
         public IActionResult OnGet(int p = 1)
         {
-            GetAllPostSummarys();
+            if (string.IsNullOrEmpty(SearchString))
+            {
+                GetAllPostSummarys();
+            }
+            else
+            {
+                GetFilteredPosts(SearchString);
+            }
 
             // generate list of items to be paged
             var blogPostSummarys = BlogPostSummarys;
@@ -59,12 +69,26 @@ namespace MichaelHeenanBlog.Pages
             return Page();
         }
 
+        public IActionResult OnPost()
+        {
+            return OnGet(1);
+        }
+
         private void GetAllPostSummarys()
         {
             BlogPostSummarys = _dbContext
                 .BlogPosts
                 .OrderByDescending(b => b.CreatedAt)
                 .Select(blogPost => new BlogPostSummary(blogPost.Id, blogPost.CreatedAt, blogPost.Title, blogPost.Body, blogPost.Tags)).ToList();
+        }
+
+        private void GetFilteredPosts(string searchString)
+        {
+            BlogPostSummarys = _dbContext
+               .BlogPosts
+               .Where(b => b.Title.Contains(searchString) || b.Body.Contains(searchString))
+               .OrderByDescending(b => b.CreatedAt)
+               .Select(blogPost => new BlogPostSummary(blogPost.Id, blogPost.CreatedAt, blogPost.Title, blogPost.Body, blogPost.Tags)).ToList();
         }
 
         private List<TagCloudTag> GenerateTagCloud()

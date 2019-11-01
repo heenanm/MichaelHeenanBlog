@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Web.Mvc;
 using JW;
 using MichaelHeenanBlog.Data;
 using Microsoft.AspNetCore.Mvc;
@@ -81,7 +82,7 @@ namespace MichaelHeenanBlog.Pages
                 .OrderByDescending(b => b.CreatedAt)
                 .Select(blogPost => new BlogPostSummary(blogPost.Id, blogPost.CreatedAt, blogPost.Title, blogPost.Body, blogPost.Tags)).ToList();
         }
-
+        [ValidateInput(true)]
         private void GetFilteredPosts(string searchString)
         {
             BlogPostSummarys = _dbContext
